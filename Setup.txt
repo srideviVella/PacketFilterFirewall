@@ -1,3 +1,5 @@
 This project contains mainly three virtual machines namely, server, gateway and client. Gateway is the machine which has access to the internet. 
 This setup resembles any network in general. Server side network is considered as the internal network and client side network is considered as the outside network which 
 contains any user/attacker possibly. The following diagram shows the architecture of the network.
+![MyImage](https://github.com/srideviVella/PacketFilterFirewall/blob/main/images/ProjectArch.PNG)
+![jadx-gui](images/ProjectArch.PNG)
