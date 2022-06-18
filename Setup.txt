@@ -1,5 +1,32 @@
 This project contains mainly three virtual machines namely, server, gateway and client. Gateway is the machine which has access to the internet. 
 This setup resembles any network in general. Server side network is considered as the internal network and client side network is considered as the outside network which 
 contains any user/attacker possibly. The following diagram shows the architecture of the network.
-![MyImage](https://github.com/srideviVella/PacketFilterFirewall/blob/main/images/ProjectArch.PNG)
-![jadx-gui](images/ProjectArch.PNG)
+
+![Architecture](images/ProjectArch.PNG)
+
+Create a ubuntu virtual machine using Virtual Box. The network settings should be as follows:
+
+All the vms should contain promiscous mode as "Allow All"
+For Client:
+
+Image ClientNW
+
+As shown above, in Attached to, give the option as "Internal Network" and give a name for that network. I have given it as "client-net". CLient vm has only one adapter as it is directly connected to the gateway. 
+
+For Server:
+
+Image ServerNW
+
+Follow the same steps as server but the name should be different as both server and client are in different networks. For the name, I gave it as "server-net".
+
+For Gateway:
+
+For Gateway, it is little different as it will be having 3 adapters each with server, client, and the outside internet. For adapter one, give the name same as that of clients network adapter after choosing "Attached to" as "Internal Network". And remaining options are same.
+
+Image GatewayNw-Client
+
+For adapter 2, let's say it connects to the server, choose the "Attached to" as "Internal Network" and the name is same as that of server's adatper.
+Image GatewayNw-Server
+
+For adapter 3, it connects to the internet. Choose the "Attached to" as "Internal Network" and the name is same as that of server's adatper.
+Image GatewayNw-Internet
