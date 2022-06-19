@@ -57,3 +57,25 @@ Note that we need to give the Gateway's ip address as 192.168.0.100. To confirm 
 
 ![routeClient](https://user-images.githubusercontent.com/102641432/174470744-44e8fbeb-0b66-4244-a4db-c7f52bb8f0bd.PNG)
 
+The setup is complete. However, these network changes are not permanent. They will change to default values once the machines are restarted. In order to avoid that, the default configuration file in "/etc/netplan" folder needs to edited. To open,
+> sudo vim /etc/netplan/01-netcfg.yaml
+
+Add the following content:
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      dhcp4: no
+      addresses:
+        - 192.168.0.10/24
+      gateway4: 192.168.0.100
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+```
+The yaml file should be edited correctly. The indentation should be followed appropriately otherwise might run into issues.
+To enable the configurations, enter the following command:
+> sudo netplan apply
+
+If it runs into any errors, run the same command with option -d to have debug information.
