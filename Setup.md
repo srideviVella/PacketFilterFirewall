@@ -38,8 +38,22 @@ For adapter 3, it connects to the internet. Choose the "Attached to" as "NAT Net
 
 ![GatewayNw](https://user-images.githubusercontent.com/102641432/174468577-93d968aa-bcc4-4e03-8a65-52cafdecd3e5.PNG)
 
+Until here, only external settings are given. Until and unless the actual configurations are made after switching on the machines, the network will not work properly. Now switch on the machines and follow along.
 
 **Client Setup:**
 From the command line, enter following command to get the interfaces available. '-a' option allows to output the inavailable network interfaces as well.
 > ifconifg -a
+
+Here the previously given network adapter as interface and if you want, you can check the MAC address given with the one in the settings.As there are no IP addresses previously, it will not show the IP address. To assign an IP address to the interface,  enter the following command:
+> sudo ifconfig enps03 192.168.0.10/24 netmask 255.255.255.0 up
+
+enp0s3 is the name of the interface from the ifconfig command. It could vary from system to system. The newly assigned IP is 192.168.0.10
+
+Next step is to add a default gateway to the client. Whenever it needs to send a packet to a host in a remote network, it will send the packet to a default gateway. To add the gateway, enter the following command:
+> sudo route add default gw 192.168.0.100
+
+Note that we need to give the Gateway's ip address as 192.168.0.100. To confirm that the default gateway got set correctly, enter the following command and check whether the first line contains the ip address of the gateway.
+> route -n
+
+![routeClient](https://user-images.githubusercontent.com/102641432/174470744-44e8fbeb-0b66-4244-a4db-c7f52bb8f0bd.PNG)
 
