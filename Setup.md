@@ -39,3 +39,7 @@ For adapter 3, it connects to the internet. Choose the "Attached to" as "NAT Net
 ![GatewayNw](https://user-images.githubusercontent.com/102641432/174468577-93d968aa-bcc4-4e03-8a65-52cafdecd3e5.PNG)
 
 
+**Client Setup:**
+From the command line, enter following command to get the interfaces available. '-a' option allows to output the inavailable network interfaces as well.
+> ifconifg -a
+
