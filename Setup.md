@@ -28,5 +28,8 @@ Image GatewayNw-Client
 For adapter 2, let's say it connects to the server, choose the "Attached to" as "Internal Network" and the name is same as that of server's adatper.
 Image GatewayNw-Server
 
-For adapter 3, it connects to the internet. Choose the "Attached to" as "Internal Network" and the name is same as that of server's adatper.
+For adapter 3, it connects to the internet. Choose the "Attached to" as "NAT Network". By default there is a NAT Network defined in the virtual box. To view it, close the current window. Go to File->Preferences. In the opened window, click on the Network section. In it there is default network as shown below. If you could not see it, create one. If you open the settings of it, you can see the CIDR IP address range given in it.
+
+NAT Details image
 Image GatewayNw-Internet
+
