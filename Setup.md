@@ -144,3 +144,30 @@ Now from the client, try the following command:
 It should receive the replies from Google. If not, follow the steps properly. Note that in the iptables command, the interface should be that of NATNetworking. After server setup, server should also be able to access internet.
 
 **Server Setup:**
+The server setup is similar to client. Setup the ip address using the following command:
+> sudo ifconfig enp0s3 10.0.0.10 netmask 255.0.0.0 up
+
+Setup the default gateway address same as the gateway's address setup above on the server-side network:
+> sudo route add default gw 10.0.0.100
+
+Edit the /etc/netplan/01-netcfg.yaml file to make changes permanent:
+
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+    dhcp4: no
+    addresses:
+      - 10.0.0.10/8
+    gateway4: 10.0.0.100
+    nameservers:
+      addresses: [8.8.8.8, 8.8.4.4]
+```
+
+Finally, apply the new settings using following command:
+> sudo netplan -d apply
+
+You can check for server whether it is able to access the internet or not. If everything done correctly, it should be able to access the internet.
+With this, the setting up virtual machines is done.
