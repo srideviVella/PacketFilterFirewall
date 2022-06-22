@@ -128,3 +128,19 @@ network:
 After saving the file with above content, to apply the configuration, give the following command:
 > sudo netplan -d appy
 
+The server and client machines doesn't have direct access to the outside network, i.e., internet. To allow the gateway to forwards the packets from client/server to external networks, enter the following command in the gateway VM.
+
+> iptables -t nat -A POSTROUTING -o enp0s9 -j MASQUERADE
+
+where enp0s9 is the interface connecting gateway to the outside network. For POSTROUTING, whenever the client sends a packet to say google site, the gateway changes the source address to it's own address as the client doesn't have the external address and sends the packet to the google. Google thinks that it received request from the gateway and sends the reply to it. Because of the MASQUERADE option, the gateway will remember the previous request and where it should send the reply in case it gets one. After receiving the reply from Google, gateway realises it is to be sent to the client. So it sends the packet to the client. This whole process is called NAT.
+To enable the packet forwarding in a linux machine, the following command should also be entered:
+> sudo sysctl -w net.ipv4.ip_forward=1
+
+It writes the net.ipv4.ip_forward=1 to the sysctl configuration file and commits the change.
+
+Now from the client, try the following command:
+> ping 8.8.8.8
+
+It should receive the replies from Google. If not, follow the steps properly. Note that in the iptables command, the interface should be that of NATNetworking. After server setup, server should also be able to access internet.
+
+**Server Setup:**
