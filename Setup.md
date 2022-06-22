@@ -79,3 +79,52 @@ To enable the configurations, enter the following command:
 > sudo netplan apply
 
 If it runs into any errors, run the same command with option -d to have debug information.
+
+**Gateway Setup:**
+
+The process is similar to that of client with a little changes as there are three interfaces to configure on gateway. After giving `ifconfig -a`, you should see three interfaces without any IP addresses being set. Using the following commands to configure the IP addresses on the client-side and server-side networks.
+
+```
+sudo ifconfig enp0s3 192.168.0.100 netmask 255.255.255.0 up
+sudo ifconfig enp0s8 10.0.0.100 netmask 255.0.0.0 up
+```
+
+To check which interface is that of which network, you can look at the MAC addresses in the network settings you had set up previously. If you look at the screenshots of gateways above, you can see the MAC address for that adapter. Compare that with ifconfig output on gateway.
+
+For example, in the following output, the highlighted MAC address matches with the MAC address from the client-net settings. So, the interface with name as "enp0s3" is the client-side network interface on the gateway.
+![ifconfigGateway](https://user-images.githubusercontent.com/102641432/174934346-6888e4f4-656b-424f-8914-bda6086c941f.PNG)
+
+One more interface is remaining. That is for the NAT network. As that is the interface that enables the gateway to access the outside network, DHCP client is enabled on it using the following command:
+
+> sudo dhclient enp0s9
+
+Now if you give the ifconfig command, you can see the ip address automatically assigned to the third interface.
+
+Again, the assignment is not permanent. So it can be made permananent by adding the following content to /etc/netplan/01-netcfg.yaml
+
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      dhcp4: no
+      addresses:
+        - 192.168.0.100/24
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+    enp0s9:
+      dhcp4: yes
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+    enp0s8:
+      dhcp4: no
+      addresses:
+        - 10.0.0.100/8
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+```
+
+After saving the file with above content, to apply the configuration, give the following command:
+> sudo netplan -d appy
+
